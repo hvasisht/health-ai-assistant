@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+
+# Secret files
+.env
+
+# Database (don't upload user data)
+data/*.db
+
+# IDE
+.vscode/
+.DS_Store
+
+# Notebooks checkpoints
+.ipynb_checkpoints/
