@@ -16,12 +16,12 @@ load_dotenv()
 class FitnessAgent:
     """Handles fitness tracking and workout coaching."""
     
-    def __init__(self, model_name: str = "gpt-3.5-turbo", temperature: float = 0.8):
+    def __init__(self, model_name: str = "gpt-4o-mini", temperature: float = 0.8):
         """
-        Initialize the Fitness Agent.
+        Initialize the Fitness Agent with GPT-4o-mini for creative workout suggestions.
         
         Args:
-            model_name: OpenAI model to use
+            model_name: OpenAI model to use (default: gpt-4o-mini)
             temperature: Controls creativity (higher = more varied suggestions)
         """
         self.llm = ChatOpenAI(
@@ -29,6 +29,7 @@ class FitnessAgent:
             temperature=temperature,
             openai_api_key=os.getenv("OPENAI_API_KEY")
         )
+        print(f"✅ Fitness Agent initialized with {model_name}")
     
     def process_message(self, user_id: int, user_message: str) -> str:
         """
@@ -138,40 +139,3 @@ class FitnessAgent:
             summary += "🚀 Let's step it up! Aim for at least 150 minutes of activity per week."
         
         return summary
-
-
-# Testing
-if __name__ == "__main__":
-    from database.db_manager import create_user
-    
-    print("Testing Fitness Agent...\n")
-    
-    # Create test user
-    user_id = create_user("Fitness Test User", is_demo=False)
-    print(f"Created test user ID: {user_id}\n")
-    
-    # Initialize agent
-    agent = FitnessAgent()
-    
-    # Test logging exercise
-    print("Test 1: Log exercise")
-    response = agent.process_message(user_id, "I ran for 30 minutes")
-    print(response)
-    print("\n" + "="*50 + "\n")
-    
-    # Test another exercise
-    print("Test 2: Log another exercise")
-    response = agent.process_message(user_id, "Did yoga for 45 minutes")
-    print(response)
-    print("\n" + "="*50 + "\n")
-    
-    # Test getting summary
-    print("Test 3: Get weekly summary")
-    summary = agent.get_weekly_summary(user_id)
-    print(summary)
-    print("\n" + "="*50 + "\n")
-    
-    # Test asking a question
-    print("Test 4: Ask question")
-    response = agent.process_message(user_id, "What's a good workout for beginners?")
-    print(response)

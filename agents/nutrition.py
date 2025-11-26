@@ -18,10 +18,10 @@ class NutritionAgent:
     
     def __init__(self, model_name: str = "gpt-3.5-turbo", temperature: float = 0.7):
         """
-        Initialize the Nutrition Agent.
+        Initialize the Nutrition Agent with GPT-3.5-turbo for nutritional guidance.
         
         Args:
-            model_name: OpenAI model to use
+            model_name: OpenAI model to use (default: gpt-3.5-turbo)
             temperature: Controls response variety
         """
         self.llm = ChatOpenAI(
@@ -29,6 +29,7 @@ class NutritionAgent:
             temperature=temperature,
             openai_api_key=os.getenv("OPENAI_API_KEY")
         )
+        print(f"✅ Nutrition Agent initialized with {model_name}")
     
     def process_message(self, user_id: int, user_message: str) -> str:
         """
@@ -164,39 +165,3 @@ class NutritionAgent:
             summary += "\n✅ Good calorie balance for the day!"
         
         return summary
-
-
-# Testing
-if __name__ == "__main__":
-    from database.db_manager import create_user
-    
-    print("Testing Nutrition Agent...\n")
-    
-    # Create test user
-    user_id = create_user("Nutrition Test User", is_demo=False)
-    print(f"Created test user ID: {user_id}\n")
-    
-    # Initialize agent
-    agent = NutritionAgent()
-    
-    # Test logging meals
-    print("Test 1: Log breakfast")
-    response = agent.process_message(user_id, "I ate oatmeal with berries for breakfast")
-    print(response)
-    print("\n" + "="*50 + "\n")
-    
-    print("Test 2: Log lunch")
-    response = agent.process_message(user_id, "Had chicken salad for lunch")
-    print(response)
-    print("\n" + "="*50 + "\n")
-    
-    # Test getting summary
-    print("Test 3: Get daily summary")
-    summary = agent.get_daily_summary(user_id)
-    print(summary)
-    print("\n" + "="*50 + "\n")
-    
-    # Test asking a question
-    print("Test 4: Ask question")
-    response = agent.process_message(user_id, "What are good sources of protein?")
-    print(response)

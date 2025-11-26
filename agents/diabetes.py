@@ -18,10 +18,10 @@ class DiabetesAgent:
     
     def __init__(self, model_name: str = "gpt-3.5-turbo", temperature: float = 0.7):
         """
-        Initialize the Diabetes Agent.
+        Initialize the Diabetes Agent with GPT-3.5-turbo for fast, cost-effective responses.
         
         Args:
-            model_name: OpenAI model to use
+            model_name: OpenAI model to use (default: gpt-3.5-turbo)
             temperature: Controls randomness (0-1)
         """
         self.llm = ChatOpenAI(
@@ -29,6 +29,7 @@ class DiabetesAgent:
             temperature=temperature,
             openai_api_key=os.getenv("OPENAI_API_KEY")
         )
+        print(f"✅ Diabetes Agent initialized with {model_name}")
     
     def process_message(self, user_id: int, user_message: str) -> str:
         """
@@ -148,41 +149,3 @@ class DiabetesAgent:
             summary += f"\n\n⚠️ **Note**: You had at least one high reading ({max_val:.1f} mg/dL). Monitor for patterns."
         
         return summary
-
-
-# Testing
-if __name__ == "__main__":
-    from database.db_manager import create_user
-    
-    print("Testing Diabetes Agent with Corrected Ranges...\n")
-    
-    # Create test user
-    user_id = create_user("Test User - Diabetes", is_demo=False)
-    print(f"Created test user ID: {user_id}\n")
-    
-    # Initialize agent
-    agent = DiabetesAgent()
-    
-    # Test various glucose levels
-    test_cases = [
-        ("Low glucose", "My blood sugar is 65"),
-        ("Perfect before-meal", "Log glucose: 110"),
-        ("Good after-meal", "My glucose is 165"),
-        ("High glucose", "Log glucose: 220"),
-    ]
-    
-    for test_name, test_message in test_cases:
-        print(f"{'='*60}")
-        print(f"Test: {test_name}")
-        print(f"Message: '{test_message}'")
-        print(f"{'='*60}")
-        response = agent.process_message(user_id, test_message)
-        print(response)
-        print("\n")
-    
-    # Test getting summary
-    print("="*60)
-    print("Test: Get Summary")
-    print("="*60)
-    summary = agent.get_glucose_summary(user_id, days=7)
-    print(summary)

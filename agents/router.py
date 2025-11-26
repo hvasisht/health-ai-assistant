@@ -14,12 +14,12 @@ load_dotenv()
 class RouterAgent:
     """Routes user messages to appropriate specialized agents."""
     
-    def __init__(self, model_name: str = "gpt-3.5-turbo", temperature: float = 0.3):
+    def __init__(self, model_name: str = "gpt-4o-mini", temperature: float = 0.3):
         """
-        Initialize the Router Agent.
+        Initialize the Router Agent with GPT-4o-mini for best routing accuracy.
         
         Args:
-            model_name: OpenAI model to use
+            model_name: OpenAI model to use (default: gpt-4o-mini for accurate routing)
             temperature: Lower = more consistent, Higher = more creative
         """
         self.llm = ChatOpenAI(
@@ -27,6 +27,7 @@ class RouterAgent:
             temperature=temperature,
             openai_api_key=os.getenv("OPENAI_API_KEY")
         )
+        print(f"✅ Router Agent initialized with {model_name}")
     
     def route(self, user_message: str) -> str:
         """
