@@ -1,24 +1,35 @@
 """
-Diabetes Agent - Handles glucose tracking and diabetes management.
+Diabetes Agent - Handles glucose tracking and diabetes management with RAG.
 """
 
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage
 import os
+import sys
 from dotenv import load_dotenv
+
+# Add parent directory to path for imports
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
 from database.db_manager import add_glucose_reading, get_glucose_readings, get_glucose_stats
 from utils.prompts import get_diabetes_prompt
 from utils.helpers import parse_glucose_input, format_glucose_data, get_glucose_status
+
+# RAG import
+try:
+    from rag.medical_knowledge import MedicalKnowledgeRAG
+except:
+    MedicalKnowledgeRAG = None
 
 # Load environment variables
 load_dotenv()
 
 class DiabetesAgent:
-    """Handles diabetes management and glucose tracking."""
+    """Handles diabetes management and glucose tracking with medical RAG."""
     
     def __init__(self, model_name: str = "gpt-3.5-turbo", temperature: float = 0.7):
         """
-        Initialize the Diabetes Agent with GPT-3.5-turbo for fast, cost-effective responses.
+        Initialize the Diabetes Agent with GPT-3.5-turbo + RAG for medical accuracy.
         
         Args:
             model_name: OpenAI model to use (default: gpt-3.5-turbo)
@@ -29,7 +40,18 @@ class DiabetesAgent:
             temperature=temperature,
             openai_api_key=os.getenv("OPENAI_API_KEY")
         )
-        print(f"✅ Diabetes Agent initialized with {model_name}")
+        
+        # Initialize RAG
+        if MedicalKnowledgeRAG:
+            try:
+                self.rag = MedicalKnowledgeRAG()
+                print(f"✅ Diabetes Agent initialized with {model_name} + RAG")
+            except Exception as e:
+                print(f"⚠️ Diabetes Agent initialized with {model_name} (RAG unavailable: {e})")
+                self.rag = None
+        else:
+            self.rag = None
+            print(f"✅ Diabetes Agent initialized with {model_name} (no RAG)")
     
     def process_message(self, user_id: int, user_message: str) -> str:
         """
@@ -81,11 +103,24 @@ class DiabetesAgent:
             avg = stats.get('avg_glucose', 0)
             glucose_data += f"\n7-day average: {avg:.1f} mg/dL"
         
-        # Get AI response with context
+        # Get RAG context if available
+        rag_context = ""
+        if self.rag:
+            try:
+                rag_context = self.rag.get_context(user_message, n_results=2)
+            except Exception as e:
+                print(f"RAG retrieval error: {e}")
+                rag_context = ""
+        
+        # Get AI response with context + RAG
         prompt = get_diabetes_prompt(user_message, glucose_data)
         
+        # Add RAG context to prompt
+        if rag_context:
+            prompt += f"\n\n{rag_context}\n\nUse the medical guidelines above to provide accurate, evidence-based advice. Cite the source (ADA Guidelines) when using this information."
+        
         messages = [
-            SystemMessage(content="You are a helpful diabetes management assistant. Use ADA guidelines: before-meal target 80-130 mg/dL, after-meal less than 180 mg/dL."),
+            SystemMessage(content="You are a helpful diabetes management assistant. Use ADA guidelines from the provided medical context. Always cite sources when using medical guidelines."),
             HumanMessage(content=prompt)
         ]
         
@@ -123,7 +158,7 @@ class DiabetesAgent:
 📊 **Highest**: {max_val:.1f} mg/dL
 🔢 **Total Readings**: {count}
 
-**Target Ranges (ADA Guidelines)**:
+**Target Ranges (ADA 2024 Guidelines)**:
 - Before meals: 80-130 mg/dL
 - After meals: Less than 180 mg/dL
 

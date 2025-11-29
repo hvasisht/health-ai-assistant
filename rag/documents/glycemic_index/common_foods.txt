@@ -1,0 +1,36 @@
+Glycemic Index Values for Common Foods
+
+Low GI (55 or less) - Best for blood sugar control:
+- Steel-cut oats: GI 42, 27g carbs per cup
+- Quinoa: GI 53, 39g carbs per cup
+- Sweet potato: GI 54, 27g carbs per medium
+- Apple: GI 38, 25g carbs per medium
+- Lentils: GI 32, 40g carbs per cup
+- Chickpeas: GI 28, 45g carbs per cup
+- Greek yogurt (unsweetened): GI 11, 9g carbs per cup
+- Berries (strawberries, blueberries): GI 25-40, 15g carbs per cup
+- Nuts (almonds, walnuts): GI 15, 6g carbs per ounce
+
+Medium GI (56-69) - Moderate impact:
+- Brown rice: GI 68, 45g carbs per cup
+- Whole wheat bread: GI 69, 12g carbs per slice
+- Banana (ripe): GI 62, 27g carbs per medium
+- Honey: GI 61, 17g carbs per tablespoon
+- Regular oatmeal: GI 58, 27g carbs per cup
+
+High GI (70+) - Causes rapid spikes:
+- White bread: GI 75, 14g carbs per slice
+- White rice: GI 73, 45g carbs per cup
+- Cornflakes: GI 81, 26g carbs per cup
+- Baked potato: GI 85, 37g carbs per medium
+- Watermelon: GI 76, 11g carbs per cup
+- Rice cakes: GI 82, 7g carbs per cake
+- Pretzels: GI 83, 23g carbs per ounce
+- White pasta: GI 71, 43g carbs per cup
+
+Tips for lowering GI:
+- Add protein or healthy fats to meals
+- Choose whole grains over refined
+- Eat vegetables first
+- Don't overcook pasta (al dente has lower GI)
+- Combine high-GI foods with low-GI foods

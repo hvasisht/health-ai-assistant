@@ -1,24 +1,35 @@
 """
-Fitness Agent - Handles exercise tracking and fitness coaching.
+Fitness Agent - Handles exercise tracking and fitness coaching with RAG.
 """
 
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage
 import os
+import sys
 from dotenv import load_dotenv
+
+# Add parent directory to path
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
 from database.db_manager import add_exercise, get_exercises
 from utils.prompts import get_fitness_prompt
 from utils.helpers import parse_exercise_input, format_exercise_data, estimate_exercise_calories
+
+# RAG import
+try:
+    from rag.medical_knowledge import MedicalKnowledgeRAG
+except:
+    MedicalKnowledgeRAG = None
 
 # Load environment variables
 load_dotenv()
 
 class FitnessAgent:
-    """Handles fitness tracking and workout coaching."""
+    """Handles fitness tracking and workout coaching with exercise safety RAG."""
     
     def __init__(self, model_name: str = "gpt-4o-mini", temperature: float = 0.8):
         """
-        Initialize the Fitness Agent with GPT-4o-mini for creative workout suggestions.
+        Initialize the Fitness Agent with GPT-4o-mini + RAG for safe exercise guidance.
         
         Args:
             model_name: OpenAI model to use (default: gpt-4o-mini)
@@ -29,7 +40,18 @@ class FitnessAgent:
             temperature=temperature,
             openai_api_key=os.getenv("OPENAI_API_KEY")
         )
-        print(f"✅ Fitness Agent initialized with {model_name}")
+        
+        # Initialize RAG
+        if MedicalKnowledgeRAG:
+            try:
+                self.rag = MedicalKnowledgeRAG()
+                print(f"✅ Fitness Agent initialized with {model_name} + RAG")
+            except Exception as e:
+                print(f"⚠️ Fitness Agent initialized with {model_name} (RAG unavailable)")
+                self.rag = None
+        else:
+            self.rag = None
+            print(f"✅ Fitness Agent initialized with {model_name} (no RAG)")
     
     def process_message(self, user_id: int, user_message: str) -> str:
         """
@@ -82,11 +104,23 @@ class FitnessAgent:
         recent_exercises = get_exercises(user_id, limit=10)
         exercise_data_str = format_exercise_data(recent_exercises)
         
-        # Get AI response with context
+        # Get RAG context for exercise safety
+        rag_context = ""
+        if self.rag:
+            try:
+                rag_context = self.rag.get_context(f"exercise safety diabetes {user_message}", n_results=1)
+            except Exception as e:
+                print(f"RAG retrieval error: {e}")
+                rag_context = ""
+        
+        # Get AI response with context + RAG
         prompt = get_fitness_prompt(user_message, exercise_data_str)
         
+        if rag_context:
+            prompt += f"\n\n{rag_context}\n\nUse these safety guidelines when recommending exercise."
+        
         messages = [
-            SystemMessage(content="You are an enthusiastic fitness coach."),
+            SystemMessage(content="You are an enthusiastic fitness coach. Always consider diabetes exercise safety guidelines."),
             HumanMessage(content=prompt)
         ]
         
@@ -130,7 +164,7 @@ class FitnessAgent:
         
         # Add motivational feedback
         if total_minutes >= 150:
-            summary += "🌟 Amazing! You've exceeded the recommended 150 minutes of activity!"
+            summary += "🌟 Amazing! You've exceeded the recommended 150 minutes of activity per week (ADA guidelines)!"
         elif total_minutes >= 100:
             summary += "💪 Great progress! Keep pushing toward that 150-minute weekly goal!"
         elif total_minutes >= 50:

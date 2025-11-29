@@ -1,0 +1,34 @@
+```
+Hypoglycemia Treatment Protocol (ADA 2024)
+
+Rule of 15:
+1. Consume 15 grams of fast-acting carbohydrates
+2. Wait 15 minutes
+3. Recheck blood glucose
+4. If still below 70 mg/dL, repeat
+
+Fast-acting carbohydrate options (15g):
+- 4 glucose tablets
+- 1 tube of glucose gel
+- 4 ounces (1/2 cup) of fruit juice
+- 4 ounces (1/2 cup) of regular soda (not diet)
+- 1 tablespoon of sugar, honey, or corn syrup
+- 8 ounces of nonfat or 1% milk
+
+Do NOT use:
+- Chocolate (fat slows absorption)
+- Foods with fat (ice cream, cookies)
+- Complex carbohydrates alone
+
+After recovery:
+- Eat a small snack with protein if next meal is more than 1 hour away
+- Examples: crackers with cheese, half sandwich, yogurt
+
+Severe hypoglycemia:
+- If unconscious or unable to swallow: Glucagon injection
+- Call 911 if no improvement within 15 minutes of glucagon
+```
+
+
+
+---

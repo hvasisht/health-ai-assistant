@@ -1,0 +1,21 @@
+ADA 2024 Glucose Target Guidelines
+
+For adults with diabetes (non-pregnant):
+
+Before meals (preprandial): 80-130 mg/dL
+Peak postprandial (1-2 hours after beginning of meal): Less than 180 mg/dL
+
+A1C targets:
+- General goal: Less than 7%
+- More stringent (if achievable without hypoglycemia): Less than 6.5%
+- Less stringent (history of hypoglycemia, limited life expectancy): Less than 8%
+
+Hypoglycemia Thresholds:
+- Level 1 (Alert): 70 mg/dL and below
+- Level 2 (Serious): Below 54 mg/dL
+- Level 3 (Severe): Cognitive impairment requiring assistance
+
+Continuous Glucose Monitoring Goals:
+- Time in range (70-180 mg/dL): Greater than 70%
+- Time below range (<70 mg/dL): Less than 4%
+- Time above range (>180 mg/dL): Less than 25%

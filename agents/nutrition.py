@@ -1,24 +1,35 @@
 """
-Nutrition Agent - Handles meal tracking and nutrition guidance.
+Nutrition Agent - Handles meal tracking and nutrition guidance with RAG.
 """
 
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage
 import os
+import sys
 from dotenv import load_dotenv
+
+# Add parent directory to path
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
 from database.db_manager import add_meal, get_meals
 from utils.prompts import get_nutrition_prompt
 from utils.helpers import parse_meal_input, format_meal_data, estimate_meal_calories
+
+# RAG import
+try:
+    from rag.medical_knowledge import MedicalKnowledgeRAG
+except:
+    MedicalKnowledgeRAG = None
 
 # Load environment variables
 load_dotenv()
 
 class NutritionAgent:
-    """Handles nutrition tracking and dietary guidance."""
+    """Handles nutrition tracking and dietary guidance with GI database RAG."""
     
     def __init__(self, model_name: str = "gpt-3.5-turbo", temperature: float = 0.7):
         """
-        Initialize the Nutrition Agent with GPT-3.5-turbo for nutritional guidance.
+        Initialize the Nutrition Agent with GPT-3.5-turbo + RAG for GI data.
         
         Args:
             model_name: OpenAI model to use (default: gpt-3.5-turbo)
@@ -29,7 +40,18 @@ class NutritionAgent:
             temperature=temperature,
             openai_api_key=os.getenv("OPENAI_API_KEY")
         )
-        print(f"✅ Nutrition Agent initialized with {model_name}")
+        
+        # Initialize RAG
+        if MedicalKnowledgeRAG:
+            try:
+                self.rag = MedicalKnowledgeRAG()
+                print(f"✅ Nutrition Agent initialized with {model_name} + RAG")
+            except Exception as e:
+                print(f"⚠️ Nutrition Agent initialized with {model_name} (RAG unavailable)")
+                self.rag = None
+        else:
+            self.rag = None
+            print(f"✅ Nutrition Agent initialized with {model_name} (no RAG)")
     
     def process_message(self, user_id: int, user_message: str) -> str:
         """
@@ -90,11 +112,24 @@ class NutritionAgent:
         recent_meals = get_meals(user_id, limit=10)
         meal_data_str = format_meal_data(recent_meals)
         
-        # Get AI response with context
+        # Get RAG context for nutrition
+        rag_context = ""
+        if self.rag:
+            try:
+                # Search for glycemic index info
+                rag_context = self.rag.get_context(f"glycemic index nutrition {user_message}", n_results=1)
+            except Exception as e:
+                print(f"RAG retrieval error: {e}")
+                rag_context = ""
+        
+        # Get AI response with context + RAG
         prompt = get_nutrition_prompt(user_message, meal_data_str)
         
+        if rag_context:
+            prompt += f"\n\n{rag_context}\n\nUse this glycemic index data to provide accurate nutritional guidance. Mention GI values when relevant."
+        
         messages = [
-            SystemMessage(content="You are a supportive nutrition guide."),
+            SystemMessage(content="You are a supportive nutrition guide with access to glycemic index data. Use GI information when discussing food choices for diabetes."),
             HumanMessage(content=prompt)
         ]
         

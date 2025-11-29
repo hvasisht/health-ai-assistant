@@ -17,6 +17,8 @@ from agents.router import RouterAgent
 from agents.diabetes import DiabetesAgent
 from agents.fitness import FitnessAgent
 from agents.nutrition import NutritionAgent
+from agents.pattern_analysis import PatternAnalysisAgent
+from agents.insights_coordinator import InsightsCoordinatorAgent
 from utils.helpers import parse_glucose_input, parse_meal_input, parse_exercise_input
 
 # Page configuration
@@ -149,7 +151,9 @@ def init_agents():
         'router': RouterAgent(),
         'diabetes': DiabetesAgent(),
         'fitness': FitnessAgent(),
-        'nutrition': NutritionAgent()
+        'nutrition': NutritionAgent(),
+        'pattern': PatternAnalysisAgent(),
+        'coordinator': InsightsCoordinatorAgent()
     }
 
 def init_session_state():
@@ -387,7 +391,18 @@ def smart_response(user_message: str, agents: dict, user_id: int):
     if not (glucose or meal or exercise or charts):
         route = agents['router'].route(user_message)
         
-        if route == "DIABETES_AGENT":
+        # Check if asking for complex multi-agent coordination
+        if any(keyword in message_lower for keyword in ['pattern', 'correlation', 'trend', 'why', 'insight', 'how can i', 'improve', 'relationship']):
+            # Use coordinator for complex multi-agent questions
+            if agents['coordinator'].should_coordinate(user_message):
+                print("🧠 Using Insights Coordinator for multi-agent analysis...")
+                response = agents['coordinator'].coordinate_analysis(user_id, user_message, agents)
+                responses.append(response)
+            else:
+                # Use pattern analysis for simpler pattern queries
+                response = agents['pattern'].get_specific_insight(user_id, user_message)
+                responses.append(response)
+        elif route == "DIABETES_AGENT":
             response = agents['diabetes'].process_message(user_id, user_message)
             responses.append(response)
         elif route == "FITNESS_AGENT":
@@ -397,7 +412,7 @@ def smart_response(user_message: str, agents: dict, user_id: int):
             response = agents['nutrition'].process_message(user_id, user_message)
             responses.append(response)
         else:
-            responses.append("👋 Hi! I can help you track your glucose, meals, and exercise. Try saying:\n- 'Log glucose: 120'\n- 'I ate chicken salad'\n- 'Show me my glucose this week'")
+            responses.append("👋 Hi! I can help you track your glucose, meals, and exercise. Try saying:\n- 'Log glucose: 120'\n- 'I ate chicken salad'\n- 'Show me my glucose this week'\n- 'What patterns do you see?'\n- 'Why is my glucose high?'")
     
     return "\n\n".join(responses), charts
 
@@ -417,7 +432,6 @@ def main():
         users = get_all_users()
         
         if st.session_state.user_id:
-            # Show current user
             # Show current user
             st.success(f"✅ **Logged in as:** {st.session_state.user_name}")
             
@@ -518,6 +532,24 @@ def main():
                     "charts": charts
                 })
                 st.rerun()
+            
+            if st.button("🔍 Discover My Patterns", use_container_width=True):
+                # Add user message
+                st.session_state.messages.append({
+                    "role": "user",
+                    "content": "What patterns do you see in my health data?",
+                    "charts": []
+                })
+                
+                # Generate pattern analysis
+                patterns = agents['pattern'].analyze_patterns(st.session_state.user_id)
+                
+                st.session_state.messages.append({
+                    "role": "assistant", 
+                    "content": patterns,
+                    "charts": []
+                })
+                st.rerun()
         
         else:
             # User selection/creation
@@ -545,7 +577,7 @@ def main():
                             welcome_msg += f"🥗 {meal_count} meals logged\n"
                         if exercise_count > 0:
                             welcome_msg += f"💪 {exercise_count} workouts logged\n"
-                        welcome_msg += "\n💡 Try: 'Show me my glucose chart' or 'What's my glucose average?'"
+                        welcome_msg += "\n💡 Try: 'Show me my glucose chart' or 'What patterns do you see?'"
                     else:
                         welcome_msg += "Ready to start tracking your health! Try:\n• 'Log glucose: 120'\n• 'I ate oatmeal'\n• 'I ran for 30 minutes'"
                     
@@ -564,6 +596,7 @@ def main():
         st.markdown("---")
         st.markdown("### 🤖 AI Agents")
         st.markdown("🩸 Diabetes • 💪 Fitness • 🥗 Nutrition")
+        st.markdown("🔍 Patterns • 🧠 Coordinator")
     
     # Main chat area
     if not st.session_state.user_id:

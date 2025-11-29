@@ -1,0 +1,74 @@
+Insulin Types and Timing Guide
+
+Rapid-Acting Insulin:
+Examples: Humalog, Novolog, Apidra
+- Onset: 10-15 minutes
+- Peak: 1-2 hours
+- Duration: 3-5 hours
+- Timing: Take 0-15 minutes before meals
+- Best for: Covering meals, correcting high glucose
+
+Short-Acting (Regular) Insulin:
+Examples: Humulin R, Novolin R
+- Onset: 30 minutes
+- Peak: 2-4 hours
+- Duration: 5-8 hours
+- Timing: Take 30 minutes before meals
+
+Intermediate-Acting Insulin:
+Examples: NPH (Humulin N, Novolin N)
+- Onset: 1-2 hours
+- Peak: 4-8 hours
+- Duration: 12-18 hours
+- Timing: Usually twice daily
+
+Long-Acting Insulin:
+Examples: Lantus, Levemir, Basaglar
+- Onset: 1-2 hours
+- Peak: Minimal peak
+- Duration: 20-24 hours
+- Timing: Once or twice daily, same time each day
+
+Ultra-Long-Acting:
+Examples: Tresiba, Toujeo
+- Onset: 1-2 hours
+- Peak: No pronounced peak
+- Duration: 36-42 hours
+- Timing: Once daily, flexible timing
+
+Meal Timing with Insulin:
+
+Rapid-acting:
+- Inject 0-15 min before eating
+- Can inject during meal if uncertain about eating
+- Post-meal injection: Only if forgot, increases spike risk
+
+Regular insulin:
+- MUST inject 30 minutes before eating
+- Don't wait longer than 45 minutes to eat after injection
+- Risk of hypoglycemia if meal delayed
+
+Exercise Considerations:
+- Exercise during insulin peak: Highest hypo risk
+- Rapid-acting peak: 1-2 hours after injection
+- Avoid exercise during this window if glucose <120 mg/dL
+- Long-acting: Provides steady background, safe to exercise
+
+Storage:
+- Unopened: Refrigerate
+- In-use: Room temperature okay for 28 days
+- Never freeze
+- Avoid extreme heat (>86°F/30°C)
+
+Rotation Sites:
+- Abdomen (fastest absorption)
+- Arms (medium absorption)
+- Thighs (slower absorption)
+- Buttocks (slower absorption)
+- Rotate sites to prevent lipohypertrophy
+
+Warning Signs:
+- Cloudy insulin (should be clear except NPH)
+- Clumps or crystals
+- Color change
+- Expired = discard

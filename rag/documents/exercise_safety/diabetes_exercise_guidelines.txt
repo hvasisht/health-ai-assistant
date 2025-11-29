@@ -1,0 +1,71 @@
+Exercise Safety Guidelines for People with Diabetes (ADA 2024)
+
+When NOT to Exercise:
+
+Blood glucose too low:
+- Below 70 mg/dL: Treat hypoglycemia first, wait until above 90 mg/dL
+- 70-90 mg/dL: Eat 15g carbs, wait 15 minutes, recheck before exercising
+
+Blood glucose too high:
+- Above 250 mg/dL WITH ketones: Do NOT exercise (risk of DKA)
+- Above 300 mg/dL even without ketones: Avoid vigorous exercise
+- 250-300 mg/dL: Only light activity, stay hydrated
+
+Pre-Exercise Glucose Targets:
+- Ideal range: 90-150 mg/dL
+- If 90-124 mg/dL: May need small snack for exercise >30 min
+- If 125-180 mg/dL: Safe to exercise
+- If >250 mg/dL: Wait and recheck
+
+Exercise Recommendations:
+
+Frequency:
+- At least 150 minutes/week of moderate-intensity aerobic activity
+- Spread over at least 3 days/week
+- No more than 2 consecutive days without activity
+
+Types:
+- Aerobic: Walking, cycling, swimming (improves insulin sensitivity)
+- Resistance: 2-3 times/week (increases muscle glucose uptake)
+- Flexibility: Daily if possible
+- Balance training: For older adults
+
+Timing:
+- Best: 1-2 hours after meals (reduces postprandial spike)
+- Avoid: Fasting exercise if prone to hypoglycemia
+- Evening exercise: Check glucose before bed (risk of nocturnal hypoglycemia)
+
+Hydration:
+- Drink water before, during, and after
+- Dehydration raises blood glucose
+- Aim: 8oz before, 4-8oz every 15-20 minutes during
+
+Monitoring:
+- Check glucose before exercise
+- For sessions >60 min: Check during exercise
+- Always check after exercise
+- Recheck 2-4 hours after (delayed hypoglycemia risk)
+
+Signs to STOP exercising:
+- Feeling shaky, confused, dizzy
+- Chest pain or pressure
+- Severe shortness of breath
+- Visual changes
+- Extreme fatigue
+
+Medication Adjustments:
+- Insulin users: May need to reduce dose before exercise
+- Timing matters: Exercise during peak insulin action increases hypo risk
+- Consult healthcare provider for personalized plan
+
+Carb Recommendations During Exercise:
+- <30 min moderate: Usually no extra carbs needed
+- 30-60 min moderate: 0-15g carbs
+- >60 min moderate: 15-30g carbs per hour
+- High intensity: May need 30-60g carbs per hour
+
+Post-Exercise:
+- Glucose may drop for 24 hours after exercise
+- Higher risk of nocturnal hypoglycemia
+- May need bedtime snack
+- Monitor more frequently
