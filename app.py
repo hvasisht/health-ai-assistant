@@ -165,6 +165,8 @@ def init_session_state():
         st.session_state.user_name = None
     if 'show_chart' not in st.session_state:
         st.session_state.show_chart = False
+    if 'authenticated' not in st.session_state:
+        st.session_state.authenticated = False
 
 def create_glucose_chart(user_id: int, days: int = 7):
     """Create a simple, clear daily average glucose chart."""
@@ -420,6 +422,47 @@ def main():
     init_db()
     agents = init_agents()
     init_session_state()
+    
+    # ========== PASSWORD PROTECTION ==========
+    if not st.session_state.authenticated:
+        st.markdown('<div class="main-header">🏥 Personal Health AI Assistant</div>', unsafe_allow_html=True)
+        st.markdown('<div class="subtitle">Multi-Agent System with Pattern Analysis & RAG</div>', unsafe_allow_html=True)
+        
+        st.info("👋 **Demo Access Required** - This is a course project for Applied Generative AI at Northeastern University")
+        
+        col1, col2, col3 = st.columns([1,2,1])
+        with col2:
+            password = st.text_input("🔑 Enter demo password:", type="password", key="demo_password")
+            
+            if st.button("🚀 Access Demo", use_container_width=True):
+                if password == "GROUP10HEALTH2025":
+                    st.session_state.authenticated = True
+                    st.success("✅ Access granted! Redirecting...")
+                    st.rerun()
+                else:
+                    st.error("❌ Incorrect password. Please contact the project team for access.")
+        
+        st.markdown("---")
+        
+        # Show features preview
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.markdown("### 🔍 Pattern Analysis")
+            st.write("Discovers user-specific health correlations")
+        with col2:
+            st.markdown("### 📚 RAG System")
+            st.write("Retrieves ADA 2024 medical guidelines")
+        with col3:
+            st.markdown("### 🧠 Multi-Agent")
+            st.write("6 specialized AI agents working together")
+        
+        st.markdown("---")
+        st.markdown("**Project by:** Harini Vasisht | MS Data Analytics Engineering")
+        st.markdown("**Course:** IE 7374 - Applied Generative AI | Northeastern University | Fall 2024")
+        st.markdown("**GitHub:** [View Source Code](https://github.com/YOUR-USERNAME/health-ai-assistant)")
+        
+        return
+    # ========== END PASSWORD PROTECTION ==========
     
     # Header
     st.markdown('<div class="main-header">🏥 Your Health AI Assistant</div>', unsafe_allow_html=True)
