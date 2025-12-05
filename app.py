@@ -8,6 +8,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 from datetime import datetime, timedelta
+import os
 from database.db_manager import (
     initialize_database, create_user, get_all_users,
     add_glucose_reading, get_glucose_readings, get_glucose_stats,
