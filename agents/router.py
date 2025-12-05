@@ -7,6 +7,7 @@ from langchain_core.messages import HumanMessage, SystemMessage
 import os
 from dotenv import load_dotenv
 from utils.prompts import get_router_prompt
+from utils.helpers import get_openai_key
 
 # Load environment variables
 load_dotenv()
@@ -25,7 +26,7 @@ class RouterAgent:
         self.llm = ChatOpenAI(
             model=model_name,
             temperature=temperature,
-            openai_api_key=os.getenv("OPENAI_API_KEY")
+            openai_api_key=get_openai_key()
         )
         print(f"✅ Router Agent initialized with {model_name}")
     

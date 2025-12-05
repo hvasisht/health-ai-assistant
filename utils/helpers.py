@@ -3,9 +3,25 @@ Helper utility functions for the Health AI Assistant.
 Functions for parsing user input, formatting data, and other common tasks.
 """
 
+"""
+Helper utility functions for the Health AI Assistant.
+Functions for parsing user input, formatting data, and other common tasks.
+"""
+
 import re
+import os
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Tuple
+import streamlit as st
+
+def get_openai_key():
+    """Get OpenAI API key from environment or Streamlit secrets."""
+    # Try Streamlit secrets first (for deployment)
+    try:
+        return st.secrets["OPENAI_API_KEY"]
+    except:
+        # Fall back to environment variable (for local)
+        return os.getenv("OPENAI_API_KEY")
 
 # ============= INPUT PARSING =============
 

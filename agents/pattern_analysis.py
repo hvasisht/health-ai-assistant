@@ -11,6 +11,7 @@ from database.db_manager import get_glucose_readings, get_meals, get_exercises
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
+from utils.helpers import get_openai_key
 
 load_dotenv()
 
@@ -24,7 +25,7 @@ class PatternAnalysisAgent:
         self.llm = ChatOpenAI(
             model=model_name,
             temperature=temperature,
-            openai_api_key=os.getenv("OPENAI_API_KEY")
+            openai_api_key=get_openai_key()
         )
         print(f"✅ Pattern Analysis Agent initialized with {model_name}")
     

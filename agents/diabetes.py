@@ -7,6 +7,7 @@ from langchain_core.messages import HumanMessage, SystemMessage
 import os
 import sys
 from dotenv import load_dotenv
+from utils.helpers import get_openai_key
 
 # Add parent directory to path for imports
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -38,7 +39,7 @@ class DiabetesAgent:
         self.llm = ChatOpenAI(
             model=model_name,
             temperature=temperature,
-            openai_api_key=os.getenv("OPENAI_API_KEY")
+            openai_api_key=get_openai_key()
         )
         
         # Initialize RAG

@@ -10,6 +10,7 @@ from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage
 import os
 from dotenv import load_dotenv
+from utils.helpers import get_openai_key
 
 load_dotenv()
 
@@ -27,7 +28,7 @@ class InsightsCoordinatorAgent:
         self.llm = ChatOpenAI(
             model=model_name,
             temperature=temperature,
-            openai_api_key=os.getenv("OPENAI_API_KEY")
+            openai_api_key=get_openai_key()
         )
         print(f"✅ Insights Coordinator initialized with {model_name}")
     
