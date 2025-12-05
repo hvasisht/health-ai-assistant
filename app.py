@@ -143,6 +143,22 @@ st.markdown("""
 @st.cache_resource
 def init_db():
     initialize_database()
+    
+    # Check if demo user exists, if not create it
+    from database.db_manager import get_all_users
+    users = get_all_users()
+    
+    # If no demo user, generate demo data
+    demo_exists = any('Demo' in u['name'] for u in users)
+    
+    if not demo_exists:
+        print("📊 Generating demo data for first deployment...")
+        import sys
+        sys.path.append(os.path.dirname(__file__))
+        from data.generate_demo_data import generate_demo_data
+        generate_demo_data()
+        print("✅ Demo data loaded!")
+    
     return True
 
 @st.cache_resource
